@@ -5,12 +5,11 @@ metadata:
     name: sonar
   name: sonar
 spec:
+  type: NodePort
   ports:
     - port: 80
       targetPort: 9000
       name: sonarport
   selector:
     name: sonar
-  type: LoadBalancer
-  externalIPs:
-    - 192.168.99.100
+

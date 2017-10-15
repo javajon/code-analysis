@@ -10,5 +10,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/c/Users/User/sonarqube-postgres"
+    path: /data/postgresql/
     

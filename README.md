@@ -16,8 +16,9 @@ for your IDE. This is another effective way to interact with SonarQube before a 
 
 * Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (or any other Kubernetes solution)
 * Clone this project with Git
+* Verify kubeCtl version runs correctly
 * Apply the Postgres secret. In the k8s directory run: "kubectl create secret generic postgres-pwd --from-file=./password"
-* Run the k8s/deploy_sonar.sh script that uses KubeCtl to stand up the 
+* Change directory to k8s and run the deploy.sh script. This scripts uses KubeCtl to stand up the 
 cluster containing SonarQube engine and dashboard. On Windows use the Git Bash command prompt to run Bash scripts.
 * If your Kubernetes cluster is not at 192.168.99.100 you will have to modify the 
 externalIP in sonar-service.yaml before running the deploy script. See next section to verify your IP.
@@ -25,9 +26,8 @@ externalIP in sonar-service.yaml before running the deploy script. See next sect
 ### How do I analyze my code? ###
 
 * Using Gradle ensure the [SonarQube plugin](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle) is present and has exposed the task "sonarqube"
-* Run "./gradlew -Dsonar.host.url=http://192.168.99.100/sonar sonarqube"
-* After the analysis completes navigate to the SonarQube interactive dashboard at http://192.168.99.100/sonar. 
-* The IP of Kubernetes may vary, run "minikube ip" or "kubectl cluster-info" to determine the IP for the instructions above
+* Run "./gradlew -Dsonar.host.url=$(minikube service sonar --namespace sonar --url)/sonar sonarqube"
+* After the analysis completes this command navigates to the SonarQube dashboard "minikube service sonar --namespace sonar" When the browser tab appears, append "/sonar" to the end of the url.
 
 ### Technology stack ###
 

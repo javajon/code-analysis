@@ -11,7 +11,7 @@ spec:
         name: sonar
     spec:
       containers:
-        - image: sonarqube:6.2
+        - image: sonarqube:6.5
           args:
             - -Dsonar.web.context=/sonar
           name: sonar
