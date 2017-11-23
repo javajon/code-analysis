@@ -1,0 +1,17 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+// https://docs.gradle.org/current/userguide/jacoco_plugin.html
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.7.9'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}

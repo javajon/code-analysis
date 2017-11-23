@@ -1,0 +1,25 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+configurations {
+    staticAnalysis
+}
+
+dependencies {
+    staticAnalysis 'de.andrena.tools.macker:macker:1.0.1'
+}
+
+task macker  {
+
+    doLast {
+        logging.setLevel(LogLevel.INFO)
+        ant.taskdef(name: 'macker', classpath: configurations.staticAnalysis.asPath, classname: 'de.andrena.tools.macker.ant.MackerAntTask')
+        ant.macker(failonerror: true, verbose: false) {
+            rules(dir: "${projectDir}/analysis", includes: 'macker.xml')
+            classes(dir: "${buildDir}/classes") {
+                include(name: '**/*.class')
+            }
+        }
+    }
+}

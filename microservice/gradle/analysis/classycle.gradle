@@ -1,0 +1,7 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+// http://classycle.sourceforge.net/
+apply plugin: 'pl.squirrel.classycle'
+

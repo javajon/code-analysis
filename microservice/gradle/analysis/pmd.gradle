@@ -1,0 +1,22 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+apply plugin: 'pmd'
+
+pmd {
+    toolVersion = '5.8.1'
+
+    // Rulesets here: https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java
+    // Can also selectively do these for example: ruleSets = ["java-basic", "java-braces", "java-design"]
+    ruleSets = ['internal-all-java']
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+}
+
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

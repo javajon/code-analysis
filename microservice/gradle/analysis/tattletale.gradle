@@ -1,0 +1,47 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+configurations {
+    tattletale
+}
+
+configurations.tattletale {
+    resolutionStrategy {
+        force 'org.javassist:javassist:3.20.0-GA'
+    }
+}
+
+dependencies {
+    // other dependencies here...
+    tattletale "org.jboss.tattletale:tattletale:1.2.0.Beta2"
+}
+
+task createTattletaleProperties {
+    ext.props = [reports:"*", enableDot:"true"]
+    ext.destFile = new File(buildDir, "tattletale.properties")
+    inputs.properties props
+    outputs.file destFile
+    doLast {
+        def properties = new Properties()
+        properties.putAll(props)
+        destFile.withOutputStream { os ->
+            properties.store(os, null)
+        }
+    }
+}
+
+task tattletale(type: JavaExec, dependsOn: [createTattletaleProperties, jar]) {
+    ext.outputDir = new File(buildDir, "reports/tattletale")
+    outputs.dir outputDir
+    //inputs.files configurations.runtime.files
+    inputs.file jar.archivePath
+    doFirst {
+        outputDir.mkdirs()
+    }
+    main = "org.jboss.tattletale.Main"
+    classpath = configurations.tattletale
+    systemProperties "jboss-tattletale.properties": createTattletaleProperties.destFile
+    args([/*configurations.runtime.files, */jar.archivePath].flatten().join("#"))
+    args outputDir
+}

@@ -1,10 +1,9 @@
 #!/bin/sh
 set -v
 
-# kubectl create secret generic postgres-pwd --from-file=./password
-kubectl create namespace sonar
-kubectl create secret --namespace sonar generic postgres-pwd --from-file=./password
-kubectl create -f . --namespace sonar
-minikube service sonar --namespace sonar
+ns='namespace sonar'
 
-
+kubectl create ${ns}
+kubectl create secret --${ns} generic postgres-pwd --from-file=./password
+kubectl create -f . --${ns}
+minikube service sonar --${ns}

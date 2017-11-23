@@ -1,0 +1,18 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+// OWASP dependency-check is a software composition analysis utility that detects publicly disclosed vulnerabilities
+// in application dependencies.
+// https://github.com/jeremylong/DependencyCheck
+apply plugin: 'org.owasp.dependencycheck'
+
+dependencyCheck {
+    logging.captureStandardOutput LogLevel.INFO // squelch output of task
+
+    autoUpdate = false
+    cveValidForHours = 1
+    failOnError = false
+    format = 'ALL'
+    outputDirectory = file("$project.buildDir/reports/dependency_check")
+}

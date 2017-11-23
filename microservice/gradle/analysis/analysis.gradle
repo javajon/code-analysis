@@ -1,0 +1,53 @@
+def analysisPlugins = [
+        'jacoco',
+        'sonarqube',
+        'lint',
+        'findbugs',
+        'spotbugs',
+        'pmd',
+        'checkstyle',
+        'tattletale',
+        'smartsmells',
+        'classycle',
+        'macker',
+        'dependency_check',
+        'dependency_versions'
+]
+
+def extraAnalysisTasks = [
+        'sonarqube',
+]
+
+def analysisTasks = [
+        'findbugsMain',
+        'findbugsTest',
+        'spotbugsMain',
+        'spotbugsTest',
+        'pmdMain',
+        'pmdTest',
+        'checkstyleMain',
+        'checkstyleTest',
+        'createTattletaleProperties',
+        'tattletale',
+        'smartsmells',
+        'classycle',
+        'classycleMain',
+        'classycleTest',
+        'macker',
+        'dependencyUpdates'
+]
+
+
+analysisPlugins.each {
+    apply from: "gradle/analysis/${it}.gradle"
+}
+
+analysisTasks.plus(extraAnalysisTasks).each {
+    project.tasks.getByName("${it}").setGroup('analysis')
+}
+
+check.doLast {
+    analysisTasks.each {
+        project.tasks.getByName("${it}").execute()
+    }
+}

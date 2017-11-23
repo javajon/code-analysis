@@ -1,0 +1,4 @@
+show allResults
+
+{package} = com.dijure
+check absenceOfPackageCycles > 1 in ${package}.*

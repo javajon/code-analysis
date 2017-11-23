@@ -15,19 +15,31 @@ for your IDE. This is another effective way to interact with SonarQube before a 
 ### How do I get set up? ###
 
 * Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (or any other Kubernetes solution)
+* Install kubectl and verify `kubectl version` runs correctly
 * Clone this project with Git
-* Verify kubeCtl version runs correctly
-* Apply the Postgres secret. In the k8s directory run: "kubectl create secret generic postgres-pwd --from-file=./password"
+* Apply the Postgres secret. In the k8s directory run: `kubectl create secret generic postgres-pwd --from-file=./password`
 * Change directory to k8s and run the deploy.sh script. This scripts uses KubeCtl to stand up the 
-cluster containing SonarQube engine and dashboard. On Windows use the Git Bash command prompt to run Bash scripts.
-* If your Kubernetes cluster is not at 192.168.99.100 you will have to modify the 
-externalIP in sonar-service.yaml before running the deploy script. See next section to verify your IP.
+cluster containing SonarQube engine and dashboard. On Windows use the Git Bash command prompt to 
+run Bash scripts.
 
 ### How do I analyze my code? ###
 
-* Using Gradle ensure the [SonarQube plugin](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle) is present and has exposed the task "sonarqube"
-* Run "./gradlew -Dsonar.host.url=$(minikube service sonar --namespace sonar --url)/sonar sonarqube"
-* After the analysis completes this command navigates to the SonarQube dashboard "minikube service sonar --namespace sonar" When the browser tab appears, append "/sonar" to the end of the url.
+There is an example project called `microservices`. Within is a Gradle build that will fully build a
+microservice to a Docker registry. The microservice is based on java, Springboot and MyBatis.
+
+The Gradle task `sonarqube` will generate and publish results to a SonarQube service.
+
+* Using Gradle, run<p>
+`gradlew -Dsonar.host.url=$(minikube service sonar --namespace sonar --url)/sonar sonarqube`
+
+* After the analysis completes, use this next command to navigate to the SonarQube dashboard 
+`minikube service sonar --namespace sonar` 
+
+When the browser tab appears, append `/sonar` to the end of the URL.  
+
+Independent of SonarQube, there is a Gradle task `check` will generate an extensive list of example analysis reports
+in the build directory. These come from a variety of analysis plugins that have been added to this Gradle project.
+
 
 ### Technology stack ###
 
@@ -40,7 +52,7 @@ section below.
 
 ### Additional information ###
 
-* Visit the No Fluff Just Stuff tour and see this example in action. [A K-2SO Like Static Code Analyzer for Your Squad](https://www.nofluffjuststuff.com/conference/speaker/jonathan_johnson)
+* Visit the No Fluff Just Stuff tour and see this example in action. [Static Code Analysis and Team Culture](https://www.nofluffjuststuff.com/conference/speaker/jonathan_johnson)
 * [SonarQube integration](https://www.sonarsource.com/why-us/integration/)
 * [SonarCloud Nemo](https://sonarcloud.io/projects?sort=-analysis_date), SonarQube continuous analysis reporting of many open source projects. 
 * [This solution was inspired from this blog, "From Pet to Cattle – Running Sonar on Kubernetes"](http://container-solutions.com/pet-cattle-running-sonar-kubernetes)

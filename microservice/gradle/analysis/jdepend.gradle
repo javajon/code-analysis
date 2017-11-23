@@ -1,0 +1,20 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+apply plugin: 'jdepend'
+
+dependencies {
+    // the original jdepend is abandoned and doesn't support JDK8. This fork does, however
+    // Gotta love open-source's resiliency :-)
+    jdepend "guru.nidi:jdepend:2.9.5"
+    jdepend "org.apache.ant:ant-jdepend:1.9.6"
+}
+
+tasks.withType(JDepend) {
+    reports {
+        xml.enabled = false
+        text.enabled = true
+    }
+}
+

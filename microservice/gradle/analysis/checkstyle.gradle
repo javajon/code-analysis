@@ -1,0 +1,18 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+apply plugin: 'checkstyle'
+
+checkstyle {
+    logging.captureStandardOutput LogLevel.INFO // squelch output of task
+    configFile = file("${project.projectDir}/analysis/google_checks.xml")
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+

@@ -1,0 +1,25 @@
+repositories {
+    mavenCentral()
+    maven {
+        url  'http://dl.bintray.com/arturbosch/code-analysis'
+    }
+}
+
+configurations {
+    smartsmells
+}
+
+task smartsmells(type: JavaExec) {
+    logging.captureStandardOutput LogLevel.INFO // squelch output of task
+    main = 'io.gitlab.arturbosch.smartsmells.Main'
+    classpath = configurations.smartsmells
+    def input = "$project.projectDir.absolutePath/src/main"
+    def baseDir = "${buildDir}/reports/smartsmells"
+    def output = "$baseDir/smartsmells.xml"
+    def params = [ '--input', input, '--output', output, '--fullStack', '--filters', ".*/test/.*"]
+    args(params)
+}
+
+dependencies {
+    smartsmells 'io.gitlab.arturbosch.smartsmells:SmartSmells:1.0.0.RC9'
+}

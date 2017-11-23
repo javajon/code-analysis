@@ -1,0 +1,29 @@
+buildscript {
+    apply from: 'gradle/buildscript.gradle', to: buildscript
+}
+
+apply plugin: 'findbugs'
+
+def findBugsVersion = '3.0.1'
+
+dependencies {
+    compile "com.google.code.findbugs:annotations:${findBugsVersion}"
+}
+
+// FindBugs annotation classes are only needed for compiling: there is no runtime dependency
+configurations.runtime.exclude group: 'com.google.code.findbugs'
+
+findbugs {
+    ignoreFailures = true
+    toolVersion = findBugsVersion
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = 'max'
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
