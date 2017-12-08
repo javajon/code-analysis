@@ -38,7 +38,7 @@ The Gradle task `sonarqube` will generate and publish results to a SonarQube ser
 When the browser tab appears, append `/sonar` to the end of the URL.  
 
 Independent of SonarQube, there is a Gradle task `check` will generate an extensive list of example analysis reports
-in the build directory. These come from a variety of analysis plugins that have been added to this Gradle project.
+in the build directory. These reports are generated from a variety of analysis plugins included within the Gradle build in the `microservice` project directory.
 
 
 ### Technology stack ###
