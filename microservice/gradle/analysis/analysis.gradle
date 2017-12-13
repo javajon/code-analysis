@@ -34,7 +34,8 @@ def analysisTasks = [
         'classycleMain',
         'classycleTest',
         'macker',
-        'dependencyUpdates'
+        'dependencyUpdates',
+        'dependencyCheckAnalyze'
 ]
 
 
