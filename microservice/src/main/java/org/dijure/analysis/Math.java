@@ -13,6 +13,8 @@ public class Math
     {
         a = 42 ; // potential bug, smell (how about a misspeling?)
 
+        // int x = 1;  // Comments are not for dead code!
+
         if (b == 0)
         {
             throw new UnsupportedOperationException("Can't divide by zero!");
