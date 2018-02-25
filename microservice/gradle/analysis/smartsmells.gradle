@@ -16,7 +16,7 @@ task smartsmells(type: JavaExec) {
     def input = "$project.projectDir.absolutePath/src/main"
     def baseDir = "${buildDir}/reports/smartsmells"
     def output = "$baseDir/smartsmells.xml"
-    def params = [ '--input', input, '--output', output, '--fullStack', '--filters', ".*/test/.*"]
+    def params = [ '--input', input, '--output', output, '--fullStack', '--filters', '.*/test/.*']
     args(params)
 }
 

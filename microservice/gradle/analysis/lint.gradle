@@ -27,7 +27,7 @@ gradleLint {
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:all" << "-Werror"
+            options.compilerArgs << '-Xlint:all' << '-Werror'
         }
     }
 }
