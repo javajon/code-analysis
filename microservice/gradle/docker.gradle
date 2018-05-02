@@ -43,7 +43,7 @@ docker {
 
 task copyContainerArtifacts(type: Copy, group: 'docker') {
     description 'Move the jar into the container.'
-    dependsOn bootRepackage
+    dependsOn bootJar
     from new File("${buildDir}/libs", jar.getArchiveName())
     into 'build/docker'
 }

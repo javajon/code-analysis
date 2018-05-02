@@ -1,42 +1,40 @@
 /*
- * This build file generates and publishes the microservice
- * for the World data. It depends on access to the World
- * database. The microservice leverages
- * Java 8 compilation, Java 9 Docker container,
- * SpringBoot and MyBatis.
+ * This build file generates a Spring Boot executable jar and publishes the jar in
+ * a containers as a microservice. The service leverages Java 8 compilation, 
+ * Spring Boot, MyBatis and Java 8 Docker container.
  *
- * Execute task "pushImage" to publish complete microservice
+ * Execute task bootRun to run locally or pushImage to publish the microservice.
+ *
+ * Static code analysis is invoked with the Check and SonarQube tasks. 
  */
-
 buildscript {
     apply from: 'gradle/buildscript.gradle', to: buildscript
 }
-
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '1.5.6.RELEASE'
-}
-
-group = projectGroup
-version = versionTag
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
 task wrapper(type: Wrapper) {
     gradleVersion = wrapperVersion
 }
 
+group = projectGroup
+version = versionTag
+
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/java-library.gradle'
+apply from: 'gradle/springboot.gradle'
+apply from: 'gradle/docker.gradle'
+apply from: 'gradle/analysis/analysis.gradle'
+
+repositories {
+    jcenter()
+}
+
 dependencies {
-    compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:$myBatisVersion"
-    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$myBatisVersion"
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 
     // H2 Database JDBC Driver
     runtime "com.h2database:h2:$h2DatabaseVersion"
 
     testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-
     testCompile 'guru.nidi:code-assert:0.8.5'
 }
-
-apply from: 'gradle/docker.gradle'
-apply from: 'gradle/analysis/analysis.gradle'

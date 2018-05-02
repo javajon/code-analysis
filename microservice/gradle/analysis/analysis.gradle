@@ -1,9 +1,9 @@
 def analysisPlugins = [
         'jacoco',
         'sonarqube',
-        'lint',
+     //   'lint',
         'findbugs',
-        'spotbugs',
+      //  'spotbugs',
         'pmd',
         'checkstyle',
         'tattletale',
@@ -21,8 +21,8 @@ def extraAnalysisTasks = [
 def analysisTasks = [
         'findbugsMain',
         'findbugsTest',
-        'spotbugsMain',
-        'spotbugsTest',
+      //  'spotbugsMain',
+      //  'spotbugsTest',
         'pmdMain',
         'pmdTest',
         'checkstyleMain',

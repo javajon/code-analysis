@@ -1,0 +1,19 @@
+// Inspired from several examples in Gradle community, such as this one:
+// https://www.stubbornjava.com/posts/multi-project-builds-with-gradle-and-fat-jars-with-shadow
+// Lists should be alphabetical
+
+ext.versions = [
+
+    // Dependencies just related to the container rest service (not part of pfs-war)
+    springboot               : '2.0.1.RELEASE',
+    jackson                  : '2.9.5',
+]
+
+ext.libs = [
+
+    springBootWeb        : "org.springframework.boot:spring-boot-starter-web:${versions.springboot}",
+    springBootUndertow   : "org.springframework.boot:spring-boot-starter-undertow:${versions.springboot}",
+
+    jacksonDatabind      : "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}",
+    jacksonYaml          : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${versions.jackson}",
+]

@@ -3,3 +3,9 @@ buildscript {
 }
 
 apply plugin: 'org.sonarqube'
+
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'Example of SonarQube Scanner for Gradle Usage'
+    }
+}

@@ -2,12 +2,13 @@ buildscript {
     apply from: 'gradle/buildscript.gradle', to: buildscript
 }
 
+// http://spotbugs.readthedocs.io/en/latest/gradle.html
 apply plugin: 'com.github.spotbugs'
 
 def spotBugsToolVersion = '3.1.0'
 
 dependencies {
-    compileOnly "com.github.spotbugs:spotbugs-annotations:${spotBugsToolVersion}"
+   spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
 }
 
 spotbugs {
