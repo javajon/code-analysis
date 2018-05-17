@@ -33,12 +33,15 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 
 #### Kubernetes setup
 
-1. Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) (or any other Kubernetes cluster)
+***NOTE: Avoid Minikube versions later than 0.25.2 when using the profile feature in the steps below. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.***
+
+1. Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)
 1. Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) command line tool for Kubernetes
 1. Install [Helm](https://docs.helm.sh/using_helm/), a package manager for Kubernetes based applications
+1. Set the profile to use: `minikube profile minikube-sonarqube`
 1. Start Minikube: `minikube start --kubernetes-version v1.9.4 --cpus 4 --memory 8000 --disk-size 80g -p minikube-sonarqube`
-1. Use profile specificed above: `minikube profile minikube-sonarqube`
-1. Verify `kubectl version` runs correctly
+1. Setup Docker env variables for your shell: `eval $(minikube docker-env --shell=sh)`
+1. Verify `minikube status` and `kubectl version` run correctly
 1. Initialize Helm with: `helm init`
 
 #### SonarQube setup
@@ -46,6 +49,7 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 Install SonarQube using the public, stable Helm chart:
 
 ``` sh
+curl -O https://raw.githubusercontent.com/javajon/code-analysis/master/sonarqube-values.yaml
 helm install --name my-sonar --namespace sonarqube stable/sonarqube -f ./sonarqube-values.yaml
 ```
 
@@ -53,7 +57,7 @@ Inside the sonarqube-values.yaml file is a varety of settings that will supercee
 
 #### Sonarqube access
 
-At the end of the Helm install there is a note section. The SonarQube service by default is exposed with a configuration for a cloud LoadBalancer. If you are running this Helm chart on a cloud based cluster then follow the note to export the SERVICE_IP. If you are running MiniKube then the exposed service is exposed in a different way (more on this [here](https://github.com/kubernetes/minikube/issues/384)). 
+At the end of the Helm install there is a note section. The SonarQube service by default is exposed with a configuration for a cloud LoadBalancer. If you are running this Helm chart on a cloud based cluster then follow the note to export the SERVICE_IP. If you are running MiniKube then the exposed service is exposed in a different way (more on this [here](https://github.com/kubmkernetes/minikube/issues/384)).
 
 Access to the service:
 
@@ -69,7 +73,7 @@ An equivalent, shorter form using Minikube is:
 export SERVICE_IP=$(minikube service my-sonar-sonarqube -n sonarqube --url)
 ```
 
-Given the above, the SERVICE_IP should be assigned to something like this: `http://192.168.99.10x:3xxxx`. Point your browser to this endpoint to access  SonarQube at `echo $SERVICE_IP`.
+Given the above, the SERVICE_IP should be assigned to something like this: `http://192.168.99.10x:3xxxx`. Point your browser to this endpoint to access SonarQube at `echo $SERVICE_IP`.
 
 Now SonarQube is up and running on your cluster and you should be able to get to the dashboard and login as administrator with admin/admin.
 
@@ -86,10 +90,17 @@ gradlew -Dsonar.host.url=$(echo $SERVICE_IP) sonarqube
 
 Once the analysis completes, navigate back to the SonarQube dashboard and the project analysis will appear.
 
+### A New Tool For Your Toolbox
+
+The Minikube instance that is running is called `minikube-sonarqube` and it can be readily stopped and started with the Minikube stop and start commands. This virtual machine can be easily reconstituted ready to receive future analysis. To restart this instance with a fresh Bash terminal follow these condensed 2 steps:
+
+1. Start Minikube with a preconfigured SonarQube: `minikube start -p minikube-sonarqube && minikube profile minikube-sonarqube`
+1. Run an analysis: `gradlew -Dsonar.host.url=$(minikube service my-sonar-sonarqube -n sonarqube --url) sonarqube`
+
 ### Technology stack
 
-* VirtualBox 5.2.8
-* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 0.25.2 (Kubernetes 1.9.0 + Docker) (avoid versions 0.26.0 and 0.26.1)
+* VirtualBox 5.2.12
+* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 0.25.2 (Kubernetes 1.9.0 + Docker) (*Avoid Minikube versions later than 0.25.2 when using the profile feature in the instructions above. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.*)
 * Kubectl 1.9.0
 * Helm 2.8.2, a package manager for Kubernetes. (avoid version 2.9.0)
 * Java 1.8
@@ -103,15 +114,9 @@ Once the analysis completes, navigate back to the SonarQube dashboard and the pr
 
 ### Presentation setup
 
-1. Use VirtualBox pre-configured image with `minikube start -p minikube-sonarqube`
-1. Use profile specificed above: `minikube profile minikube-sonarqube`
+1. Start existing Minikube profile with SonarQube preconfigured : `minikube profile minikube-sonarqube && minikube start -p minikube-sonarqube`
+1. Run analysis: `gradlew -Dsonar.host.url=$(minikube service my-sonar-sonarqube -n sonarqube --url) sonarqube`
 1. Generate reports: `gradlew check`
-1. Publish sonarqube results: 
-
-``` sh
-export SERVICE_IP=$(minikube service my-sonar-sonarqube -n sonarqube --url)
-gradlew -Dsonar.host.url=$(echo $SERVICE_IP) sonarqube
-```
 
 ### Additional information
 
@@ -124,7 +129,6 @@ gradlew -Dsonar.host.url=$(echo $SERVICE_IP) sonarqube
 * [Snowflakes](https://martinfowler.com/bliki/SnowflakeServer.html)
 * [Cattle not pets](http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/)
 * Point your Intellij IDE at the SonarQube service using the [SonarLint plugin](https://www.sonarlint.org/intellij/howto.html).
-* Careful when upgrading SonarQube tag images or its plugins. It can be dependency hell with a complex matrix. If your
-container is failing it's due to mismatched versions.
+* Careful when upgrading SonarQube tag images or its plugins. It can be dependency hell with a complex matrix. If your container is failing it's due to mismatched versions.
 * Roadmap: Adjust settings in sonarqube-values.yaml to adjust rules for team preferences
 * Roadmap: Review some of the commented out analysis plugins
