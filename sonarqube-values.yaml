@@ -1,22 +1,26 @@
 image:
-  tag: 6.7.3-alpine
-
+  tag: 6.5-alpine
+#  tag: 7.1-alpine  - produces this gem: "Error: Could not find or load main class org.sonar.server.app.WebServer"
+#  Report filed here: https://github.com/kubernetes/charts/issues/6648
+#  Attempt with 6.7.1-alpine reports a connection to Postgres error.
 service:
   type: NodePort
 
 readinessProbe:
-  initialDelaySeconds: 90
-  periodSeconds: 60
+  initialDelaySeconds: 180
+  periodSeconds: 90
   failureThreshold: 6
 livenessProbe:
-  initialDelaySeconds: 90
-  periodSeconds: 60
+  initialDelaySeconds: 180
+  periodSeconds: 90
 
 plugins:
   install:
   - 'https://github.com/SonarQubeCommunity/sonar-pmd/releases/download/2.6/sonar-pmd-plugin-2.6.jar'
   - 'https://github.com/spotbugs/sonar-findbugs/releases/download/3.6.0/sonar-findbugs-plugin-3.6.0.jar'
-  - 'https://github.com/checkstyle/sonar-checkstyle/releases/download/4.8/checkstyle-sonar-plugin-4.8.jar'
+  - 'https://github.com/checkstyle/sonar-checkstyle/releases/download/4.11/checkstyle-sonar-plugin-4.11.jar'
+# to bump these plugin versions higher some require a newer version of SonarQube,
+# but newer versions of SonarQube fail to start (see at top).
 
 sonarProperties:
   sonar.forceAuthentication=false

@@ -39,7 +39,7 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 1. Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) command line tool for Kubernetes
 1. Install [Helm](https://docs.helm.sh/using_helm/), a package manager for Kubernetes based applications
 1. Set the profile to use: `minikube profile minikube-sonarqube`
-1. Start Minikube: `minikube start --kubernetes-version v1.9.4 --cpus 4 --memory 8000 --disk-size 80g -p minikube-sonarqube`
+1. Start Minikube: `minikube start --kubernetes-version v1.11.0 --cpus 4 --memory 8000 --disk-size 80g -p minikube-sonarqube`
 1. Setup Docker env variables for your shell: `eval $(minikube docker-env --shell=sh)`
 1. Verify `minikube status` and `kubectl version` run correctly
 1. Initialize Helm with: `helm init`
@@ -49,11 +49,11 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 Install SonarQube using the public, stable Helm chart:
 
 ``` sh
-curl -O https://raw.githubusercontent.com/javajon/code-analysis/master/sonarqube-values.yaml
-helm install --name my-sonar --namespace sonarqube stable/sonarqube -f ./sonarqube-values.yaml
+ANALYSIS=https://raw.githubusercontent.com/javajon/code-analysis/master
+helm install stable/sonarqube --name my-sonar --namespace sonarqube -f ${ANAYSIS}/sonarqube-values.yaml
 ```
 
-Inside the sonarqube-values.yaml file is a varety of settings that will superceed the defaults of the chart. The image tag specifies the SonarQube version where the tag can be found [here](https://hub.docker.com/r/library/sonarqube/tags/). As of this writing, there may be newer container tag and plugin versions. The first time, it will take a few minutes for SonarQube and its backing Postgres datastore to start and respond.
+Inside the sonarqube-values.yaml file is a variety of settings that will superceed the defaults of the chart. The image tag specifies the SonarQube version where the tag can be found [here](https://hub.docker.com/r/library/sonarqube/tags/). As of this writing, there may be newer container tag and plugin versions. The first time, it will take a few minutes for SonarQube and its backing Postgres datastore to start and respond.
 
 #### Sonarqube access
 
@@ -64,16 +64,16 @@ Access to the service:
 ``` sh
 export NODE_PORT=$(kubectl get --namespace sonarqube -o jsonpath="{.spec.ports[0].nodePort}" services my-sonar-sonarqube)
 export NODE_IP=$(kubectl get nodes --namespace sonarqube -o jsonpath="{.items[0].status.addresses[0].address}")
-export SERVICE_IP=$(echo http://$NODE_IP:$NODE_PORT)
+export SONAR_SERVICE=$(echo http://$NODE_IP:$NODE_PORT)
 ```
 
 An equivalent, shorter form using Minikube is:
 
 ``` sh
-export SERVICE_IP=$(minikube service my-sonar-sonarqube -n sonarqube --url)
+export SONAR_SERVICE=$(minikube service my-sonar-sonarqube -n sonarqube --url)
 ```
 
-Given the above, the SERVICE_IP should be assigned to something like this: `http://192.168.99.10x:3xxxx`. Point your browser to this endpoint to access SonarQube at `echo $SERVICE_IP`.
+Given the above, the SONAR_SERVICE should be assigned to something like this: `http://192.168.99.10x:3xxxx`. Point your browser to this endpoint to access SonarQube at `echo $SONAR_SERVICE`.
 
 Now SonarQube is up and running on your cluster and you should be able to get to the dashboard and login as administrator with admin/admin.
 
@@ -85,7 +85,7 @@ The Gradle build within the microservice folder also contains the SonarQube plug
 * Using Gradle in the microservices folder run:
 
 ``` sh
-gradlew -Dsonar.host.url=$(echo $SERVICE_IP) sonarqube
+gradlew -Dsonar.host.url=$(echo $SONAR_SERVICE) sonarqube
 ```
 
 Once the analysis completes, navigate back to the SonarQube dashboard and the project analysis will appear.
@@ -100,9 +100,9 @@ The Minikube instance that is running is called `minikube-sonarqube` and it can 
 ### Technology stack
 
 * VirtualBox 5.2.12
-* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 0.25.2 (Kubernetes 1.9.0 + Docker) (*Avoid Minikube versions later than 0.25.2 when using the profile feature in the instructions above. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.*)
-* Kubectl 1.9.0
-* Helm 2.8.2, a package manager for Kubernetes. (avoid version 2.9.0)
+* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 0.28.0 (Kubernetes 1.11.0 + Docker) (*Avoid Minikube versions later than 0.25.2 when using the profile feature in the instructions above. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.*)
+* Kubectl 1.10.0
+* Helm 2.9.1, a package manager for Kubernetes.
 * Java 1.8
 * Spring Boot 2.0.1
 * Gradle 4.7 and a few helpful plugins for building and deploying containers
