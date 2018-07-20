@@ -49,8 +49,8 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 Install SonarQube using the public, stable Helm chart:
 
 ``` sh
-ANALYSIS=https://raw.githubusercontent.com/javajon/code-analysis/master
-helm install stable/sonarqube --name my-sonar --namespace sonarqube -f ${ANAYSIS}/sonarqube-values.yaml
+SONAR_CONTEXT=https://raw.githubusercontent.com/javajon/code-analysis/master
+helm install stable/sonarqube --name my-sonar --namespace sonarqube -f $SONAR_CONTEXT/sonarqube-values.yaml
 ```
 
 Inside the sonarqube-values.yaml file is a variety of settings that will superceed the defaults of the chart. The image tag specifies the SonarQube version where the tag can be found [here](https://hub.docker.com/r/library/sonarqube/tags/). As of this writing, there may be newer container tag and plugin versions. The first time, it will take a few minutes for SonarQube and its backing Postgres datastore to start and respond.
@@ -85,7 +85,7 @@ The Gradle build within the microservice folder also contains the SonarQube plug
 * Using Gradle in the microservices folder run:
 
 ``` sh
-gradlew -Dsonar.host.url=$(echo $SONAR_SERVICE) sonarqube
+gradlew -Dsonar.host.url=$SONAR_SERVICE sonarqube
 ```
 
 Once the analysis completes, navigate back to the SonarQube dashboard and the project analysis will appear.
