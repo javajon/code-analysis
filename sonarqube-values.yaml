@@ -24,3 +24,6 @@ plugins:
 
 sonarProperties:
   sonar.forceAuthentication=false
+
+postgresql:
+  enabled=false

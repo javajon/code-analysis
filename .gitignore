@@ -14,11 +14,5 @@ build/
 .classpath
 .project
 
-# Ignore extra folders in Jenkins workspace
-caches/
-native/
-wrapper/
-daemon/
-
 #Ignore MAC system files
 .DS_Store
