@@ -23,7 +23,7 @@ Once this task completes explore the code analysis reports in the build/reports 
 
 Setting up your SonarQube services(s) as fragile [snowflakes](https://martinfowler.com/bliki/SnowflakeServer.html) is both common and not a recommended technique. Any developer should be able to quickly start a service or rely on a team service that matches the same behaviors. The latest SonarQube version, it's plugins and it's configurations should also be easily adjustable. Your software development lifecycle processes (SDLC) should embrace the versioned configuration and deployment of SonarQube across a variety of [cattle (not pets)](http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/) targets.
 
-Follow these instructions to setup a personal [SonarQube engine and dashboard](https://www.sonarqube.org). With this you have a strong static code analysis tool backing your code changes all before you submit your work for pull requests. Within SonarQube there are plugins such as for Checkstyle, PMD and Findbugs. The Fingbugs plugin includes rules for vulnerabilities such as the [OWASP top 10](http://find-sec-bugs.github.io).
+Follow these instructions to setup a personal [SonarQube engine and dashboard](https://www.sonarqube.org). With this you have a strong static code analysis tool backing your code changes all before you submit your work for pull requests. Within SonarQube there are plugins such as for Checkstyle, PMD and Spotbugs. The Spotbugs plugin includes rules for vulnerabilities such as the [OWASP top 10](http://find-sec-bugs.github.io).
 
 The code analysis tools within your IDE offers similar rules and can find many of the same technical debts, violations, vulnerabilities and anti-patterns. SonarQube provides a language and IDE agnostic way of supplying cross team analysis rules.
 
@@ -33,14 +33,17 @@ With a running SonarQube the [SonarLint plugin](http://www.sonarlint.org) for yo
 
 #### Kubernetes setup
 
-***NOTE: Avoid Minikube versions later than 0.25.2 when using the profile feature in the steps below. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.***
+**With Katacoda**
+
+Learn how to run Sonarqube on Kubernetes with this [interactive Katacoda tutorial](https://www.katacoda.com/javajon/courses/kubernetes-pipelines/sonarqube).
+
+**With Minikube**
 
 1. Install [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)
 1. Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) command line tool for Kubernetes
 1. Install [Helm](https://docs.helm.sh/using_helm/), a package manager for Kubernetes based applications
 1. Set the profile to use: `minikube profile minikube-sonarqube`
-1. Start Minikube: `minikube start --kubernetes-version v1.11.0 --cpus 4 --memory 8000 --disk-size 80g -p minikube-sonarqube`
-1. Setup Docker env variables for your shell: `eval $(minikube docker-env --shell=sh)`
+1. Start Minikube: `minikube start`
 1. Verify `minikube status` and `kubectl version` run correctly
 1. Initialize Helm with: `helm init`
 
@@ -99,10 +102,10 @@ The Minikube instance that is running is called `minikube-sonarqube` and it can 
 
 ### Technology stack
 
-* VirtualBox 5.2.12
-* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/) 0.28.0 (Kubernetes 1.11.0 + Docker) (*Avoid Minikube versions later than 0.25.2 when using the profile feature in the instructions above. There is a known [defect](https://github.com/kubernetes/minikube/issues/2717) with profiles in recent versions of Minikube.*)
-* Kubectl 1.10.0
-* Helm 2.9.1, a package manager for Kubernetes.
+* VirtualBox 5.2.12+
+* [Minikube](https://kubernetes.io/docs/getting-started-guides/minikube/)
+* Kubectl 1.10.0+
+* Helm 2.9.1+, a package manager for Kubernetes.
 * Java 1.8
 * Spring Boot 2.0.1
 * Gradle 4.7 and a few helpful plugins for building and deploying containers
@@ -111,12 +114,6 @@ The Minikube instance that is running is called `minikube-sonarqube` and it can 
 * Preconfigured and stable [Helm chart for provisioning SonarQube](https://github.com/kubernetes/charts/tree/master/stable/sonarqube) on Kubernetes.
 * [SonarQube Docker container 6.7.3-alpine](https://hub.docker.com/_/sonarqube/)
 * [Postgres for Docker](https://hub.docker.com/_/postgres/) as backing store for SonarQube
-
-### Presentation setup
-
-1. Start existing Minikube profile with SonarQube preconfigured : `minikube profile minikube-sonarqube && minikube start -p minikube-sonarqube`
-1. Run analysis: `gradlew -Dsonar.host.url=$(minikube service my-sonar-sonarqube -n sonarqube --url) sonarqube`
-1. Generate reports: `gradlew check`
 
 ### Additional information
 

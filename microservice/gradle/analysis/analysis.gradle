@@ -2,27 +2,26 @@ def analysisPlugins = [
         'jacoco',
         'sonarqube',
      //   'lint',
-        'findbugs',
-      //  'spotbugs',
+        'spotbugs',
         'pmd',
         'checkstyle',
         'tattletale',
         'smartsmells',
-        'classycle',
+        // 'classycle',
         'macker',
         'dependency_check',
         'dependency_versions'
 ]
+
+// Findbugs is dead: https://mailman.cs.umd.edu/pipermail/findbugs-discuss/2016-November/004321.html
 
 def extraAnalysisTasks = [
         'sonarqube',
 ]
 
 def analysisTasks = [
-        'findbugsMain',
-        'findbugsTest',
-      //  'spotbugsMain',
-      //  'spotbugsTest',
+        'spotbugsMain',
+        'spotbugsTest',
         'pmdMain',
         'pmdTest',
         'checkstyleMain',
@@ -30,9 +29,9 @@ def analysisTasks = [
         'createTattletaleProperties',
         'tattletale',
         'smartsmells',
-        'classycle',
-        'classycleMain',
-        'classycleTest',
+        // 'classycle',
+        // 'classycleMain',
+        // 'classycleTest',
         'macker',
         'dependencyUpdates',
         'dependencyCheckAnalyze'

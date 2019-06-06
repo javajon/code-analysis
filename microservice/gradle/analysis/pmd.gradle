@@ -5,7 +5,7 @@ buildscript {
 apply plugin: 'pmd'
 
 pmd {
-    toolVersion = '5.8.1'
+    toolVersion = '6.15.0'
 
     // Rulesets here: https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java
     // Can also selectively do these for example: ruleSets = ["java-basic", "java-braces", "java-design"]

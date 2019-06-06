@@ -17,8 +17,8 @@ livenessProbe:
 plugins:
   install:
   - 'https://github.com/SonarQubeCommunity/sonar-pmd/releases/download/2.6/sonar-pmd-plugin-2.6.jar'
-  - 'https://github.com/spotbugs/sonar-findbugs/releases/download/3.6.0/sonar-findbugs-plugin-3.6.0.jar'
   - 'https://github.com/checkstyle/sonar-checkstyle/releases/download/4.11/checkstyle-sonar-plugin-4.11.jar'
+  # TODO spotbugs or other plugins? - 'https://github.com/spotbugs/sonar-findbugs/releases/download/3.6.0/sonar-findbugs-plugin-3.6.0.jar'
 # to bump these plugin versions higher some require a newer version of SonarQube,
 # but newer versions of SonarQube fail to start (see at top).
 

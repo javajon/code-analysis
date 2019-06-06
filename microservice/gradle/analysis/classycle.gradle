@@ -3,5 +3,4 @@ buildscript {
 }
 
 // http://classycle.sourceforge.net/
-apply plugin: 'pl.squirrel.classycle'
-
+apply plugin: 'com.anagaf.classycle'

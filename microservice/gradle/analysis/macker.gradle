@@ -7,7 +7,7 @@ configurations {
 }
 
 dependencies {
-    staticAnalysis 'de.andrena.tools.macker:macker:1.0.1'
+    staticAnalysis 'de.andrena.tools.macker:macker:1.0.2'
 }
 
 task macker  {

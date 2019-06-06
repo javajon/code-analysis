@@ -7,14 +7,14 @@ repositories {
 }
 
 dependencies {
-    classpath 'io.fabric8:kubernetes-client:3.1.10'
-    classpath 'com.bmuschko:gradle-docker-plugin:3.2.7'
-    classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
-    classpath 'com.netflix.nebula:gradle-lint-plugin:9.3.1'
-    classpath 'gradle.plugin.com.github.spotbugs:gradlePlugin:1.6.0'
-    classpath 'gradle.plugin.pl.squirrel:classycle-gradle-plugin:1.2'
-    classpath 'org.owasp:dependency-check-gradle:3.1.2'
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
-    classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
-    classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE'
+    classpath 'io.fabric8:kubernetes-client:4.2.1'
+    classpath 'com.bmuschko:gradle-docker-plugin:4.9.0'
+    classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
+    classpath 'com.netflix.nebula:gradle-lint-plugin:11.5.0'
+    // classpath 'com.anagaf.classycle:com.anagaf.classycle.gradle.plugin:1.0.3'
+    classpath 'org.owasp:dependency-check-gradle:5.0.0-M3.1'
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
+    classpath 'io.spring.gradle:dependency-management-plugin:1.0.7.RELEASE'
+    classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.1.5.RELEASE'
+    classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0'
 }

@@ -54,13 +54,9 @@ task buildDockerFile(type: Dockerfile, group: 'docker') {
     destFile = project.file('build/docker/Dockerfile')
 
     from dockerSrcImage
-
-    maintainer projectVendor
-
+    label(['maintainer': projectVendor])
     addFile jar.getArchiveName(), jar.getArchiveName()
-
     entryPoint 'java', dockerSpringBootInternalPort, '-jar', jar.getArchiveName()
-
     exposePort Integer.parseInt(dockerSpringBootExternalPort)
 }
 
@@ -68,8 +64,8 @@ task buildImage(type: DockerBuildImage, group: docker) {
     description = 'Builds the Docker image for the application.'
     dependsOn buildDockerFile
 
-    tag = "$dockerImageName"
-    inputDir = buildDockerFile.destFile.parentFile
+    tags.add("$dockerImageName")
+    inputDir = buildDir // { buildDockerFile.destFile.parentFile }
 }
 
 task tagImage(type: DockerTagImage, group: docker) {

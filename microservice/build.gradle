@@ -11,10 +11,6 @@ buildscript {
     apply from: 'gradle/buildscript.gradle', to: buildscript
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = wrapperVersion
-}
-
 group = projectGroup
 version = versionTag
 

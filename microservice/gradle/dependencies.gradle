@@ -5,8 +5,8 @@
 ext.versions = [
 
     // Dependencies just related to the container rest service (not part of pfs-war)
-    springboot               : '2.0.1.RELEASE',
-    jackson                  : '2.9.5',
+    springboot               : '2.1.5.RELEASE',
+    jackson                  : '2.9.9',
 ]
 
 ext.libs = [
