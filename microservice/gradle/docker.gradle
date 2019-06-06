@@ -26,7 +26,7 @@ String getPrivateRegistryNodePort() {
               return registryService.get().getSpec().ports.get(0).nodePort
             }
             else {
-                return "80"
+              return "80"
             }
         } catch (KubernetesClientException ex) {
             println "Warning: Kubernetes is not available."
