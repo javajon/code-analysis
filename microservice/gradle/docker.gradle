@@ -21,7 +21,10 @@ String getPrivateRegistryNodePort() {
     if (ext.kubenetesAvailable) {
         try {
             def services = new DefaultKubernetesClient().services()
-            return services.inNamespace("kube-system").withLabel("app", "kubernetes-dashboard").get().getSpec().ports.get(0).nodePort
+            def registryService = services.inNamespace("kube-system").withLabel("app", "registry")
+            if (registryService != null) {
+              return registryService.get().getSpec().ports.get(0).nodePort
+            }
         } catch (KubernetesClientException ex) {
             println "Warning: Kubernetes is not available."
         }
