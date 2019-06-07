@@ -23,9 +23,12 @@ String getPrivateRegistryNodePort() {
             def services = new DefaultKubernetesClient().services()
             def registryService = services.inNamespace("kube-system").withLabel("app", "registry")
             if (registryService != null) {
-              def ports = registryService.get().getSpec().ports
-              if (ports != null) {
-                return ports.get(0).nodePort
+              def spec = registryService.get().getSpec()
+              if (spec != null) {
+                def ports = spec.ports
+                if (ports != null) {
+                  return ports.get(0).nodePort
+                }
               }
             }
             else {
