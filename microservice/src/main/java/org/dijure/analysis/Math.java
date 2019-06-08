@@ -1,17 +1,7 @@
 package org.dijure.analysis;
 
-import com.qualinsight.plugins.sonarqube.smell.api.annotation.Smell;
-import com.qualinsight.plugins.sonarqube.smell.api.annotation.Smells;
-import com.qualinsight.plugins.sonarqube.smell.api.model.SmellType;
-
-@Smells({
-    @Smell(minutes=1000, reason="Math class only has one method ...", type=SmellType.BAD_DESIGN),
-    @Smell(minutes=10, reason="Consider a 3rd party jar instead of recreating a wheel.", type=SmellType.UNCOMMUNICATIVE_NAME),
-    @Smell(minutes=10, reason="Math as a name is not clear.", type=SmellType.UNCOMMUNICATIVE_NAME)
-})
 public class Math
 {
-    @Smell(minutes=10, reason="Div? Divide, diverse, divorce, divagate?", type=SmellType.MEANINGLESS_COMMENT)
     /**
      * A smelly function that any code analysis tool would have a heyday with it.
      * @param a

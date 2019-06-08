@@ -1,7 +1,7 @@
 /*
  * This build file generates a Spring Boot executable jar and publishes the jar in
  * a containers as a microservice. The service leverages Java 8 compilation, 
- * Spring Boot, MyBatis and Java 8 Docker container.
+ * Spring Boot, and MyBatis.
  *
  * Execute task bootRun to run locally or pushImage to publish the microservice.
  *
@@ -17,7 +17,6 @@ version = versionTag
 apply from: 'gradle/dependencies.gradle'
 apply from: 'gradle/java-library.gradle'
 apply from: 'gradle/springboot.gradle'
-apply from: 'gradle/docker.gradle'
 apply from: 'gradle/analysis/analysis.gradle'
 
 repositories {
@@ -27,8 +26,6 @@ repositories {
 dependencies {
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$myBatisVersion"
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-
-    implementation "com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-smell-api:4.0.0"
 
     // H2 Database JDBC Driver
     runtime "com.h2database:h2:$h2DatabaseVersion"
