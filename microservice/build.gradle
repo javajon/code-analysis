@@ -28,7 +28,7 @@ dependencies {
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$myBatisVersion"
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
 
-    compileOnly "com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-smell-api:4.0.0"
+    implementation "com.qualinsight.plugins.sonarqube:qualinsight-plugins-sonarqube-smell-api:4.0.0"
 
     // H2 Database JDBC Driver
     runtime "com.h2database:h2:$h2DatabaseVersion"
